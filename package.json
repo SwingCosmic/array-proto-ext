@@ -1,0 +1,19 @@
+{
+  "name": "array-proto-ext",
+  "version": "1.0.0",
+  "description": "A functional extension directly adds to Array.prototype",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+  },
+  "author": "LoveKicher",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.134"
+  }
+}
