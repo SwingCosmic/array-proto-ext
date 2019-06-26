@@ -1,7 +1,8 @@
 {
   "name": "array-proto-ext",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A functional extension directly adds to Array.prototype",
+  "keywords": ["array","extension","functional","prototype","typescript"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Dictionary, Mapper, NumberMapper, Predicate } from "./types";
+import { Comparable, Dictionary, Mapper, NumberMapper, Predicate } from "./types";
 declare global {
     /**
      * 为JS Array添加辅助方法
@@ -29,21 +29,21 @@ declare global {
         //#endregion
 
         //#region 聚集函数
+        count(): number;
         sum(this: number[]): number;
-        max(this: number[]): number | undefined;
-        min(this: number[]): number | undefined;
+        max<U extends Comparable>(this: U[]): number | undefined;
+        min<U extends Comparable>(this: U[]): number | undefined;
 
+        count(callbackfn: Predicate<T>): number;
         sum(callbackfn: NumberMapper<T>): number;
-        max<U extends number | string | Date>(callbackfn: Mapper<T, U>): T | undefined; 
-        min<U extends number | string | Date>(callbackfn: Mapper<T, U>): T | undefined;
-
-        countIf(callbackfn: Predicate<T>): number;
+        max<U extends Comparable>(callbackfn: Mapper<T, U>): T | undefined;
+        min<U extends Comparable>(callbackfn: Mapper<T, U>): T | undefined;
 
         anyMatch(callbackfn: Predicate<T>): boolean;
         allMatch(callbackfn: Predicate<T>): boolean;
         //#endregion
 
-        
+
         //#region 遍历函数
         first(): T | undefined;
         last(): T | undefined;
@@ -77,7 +77,7 @@ declare global {
         } else {
             s += fn(o);
         }
-        
+
     }
     return s;
 };
@@ -85,12 +85,7 @@ declare global {
     this: T[], fn: (e: T) => U): T | undefined {
     if (this.length >= 1) {
         if (arguments.length === 0) {
-            let max: number = this[0] as any;
-            for (const o of this) {
-                let t: number = o as any;
-                max = t > max ? t : max;
-            }
-            return max as any;
+            return _.max(this);
         } else {
             let max: { value: U, item: T } = { value: fn(this[0]), item: this[0] };
             for (const o of this) {
@@ -106,12 +101,7 @@ declare global {
     this: T[], fn: (e: T) => U): T | undefined {
     if (this.length >= 1) {
         if (arguments.length === 0) {
-            let min: number = this[0] as any;
-            for (const o of this) {
-                let t: number = o as any;
-                min = t < min ? t : min;
-            }
-            return min as any;
+            return _.min(this);
         } else {
             let min: { value: U, item: T } = { value: fn(this[0]), item: this[0] };
             for (const o of this) {
@@ -124,19 +114,19 @@ declare global {
     return undefined;
 };
 
-(Array.prototype as any).countIf = function <T>(this: T[], predicate: (e: T) => boolean): number {
-    let count = 0;
-    for (const o of this) {
-        count += predicate(o) ? 1 : 0;
+(Array.prototype as any).count = function <T>(this: T[], predicate?: (e: T) => boolean): number {
+    if (typeof (predicate) === "function") {
+        return this.filter(predicate).length;
+    } else {
+        return this.length;
     }
-    return count;
 };
 
 (Array.prototype as any).anyMatch = function <T>(this: T[], predicate: (e: T) => boolean): boolean {
     return this.some(predicate);
 };
 (Array.prototype as any).allMatch = function <T>(this: T[], predicate: (e: T) => boolean): boolean {
-    return this.filter(o => predicate(o)).length == this.length;
+    return this.filter(predicate).length === this.length;
 };
 
 (Array.prototype as any).first = function <T>(this: T[]): T | undefined {
@@ -155,20 +145,20 @@ declare global {
 };
 
 (Array.prototype as any).distinct = function <T, TKey>(this: T[], fn: (e: T) => TKey): T[] {
-    let _result = new Array<T>();
+    const result: T[] = [];
     if (this.length > 0) {
-        _result.push(this[0]);
+        result.push(this[0]);
     }
     for (let i = 1; i < this.length; i++) {
         const element = this[i];
-        if (_result.filter(x => fn(x) === fn(element)).length === 0) {
-            _result.push(element);
+        if (result.filter(x => fn(x) === fn(element)).length === 0) {
+            result.push(element);
         }
     }
-    return (_result as T[]);
+    return (result);
 };
 
-(Array.prototype as any).range = function(start: number, end: number) {
+(Array.prototype as any).range = function (start: number, end: number) {
     const r: number[] = [];
     for (let i = start; i <= end; i++) {
         r.push(i);
@@ -176,15 +166,15 @@ declare global {
     return r;
 };
 
-(Array.prototype as any).repeat = function<T> (value: T | (() => T), times: number) {
+(Array.prototype as any).repeat = function <T>(value: T | (() => T), times: number) {
     const r: T[] = [];
     for (let i = 0; i < times; i++) {
-        if (typeof(value) === "function") {
+        if (typeof (value) === "function") {
             r.push((value as Function)());
         } else {
             r.push(value);
         }
-        
+
     }
     return r;
 };
