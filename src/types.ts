@@ -1,4 +1,4 @@
-export type Comparable = number | string | Date ;
+export type Comparable = number | string | boolean | Date ;
 export interface Dictionary<V> { [key: string]: V; }
 
 export type Mapper<T, U> = (obj: T) => U;

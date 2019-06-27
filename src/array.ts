@@ -166,7 +166,7 @@ declare global {
     return (result);
 };
 
-(Array.prototype as any).range = function (start: number, end: number) {
+(Array.prototype as any).range = function(start: number, end: number) {
     const r: number[] = [];
     for (let i = start; i <= end; i++) {
         r.push(i);
