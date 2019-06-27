@@ -2,12 +2,19 @@
   "name": "array-proto-ext",
   "version": "1.0.1",
   "description": "A functional extension directly adds to Array.prototype",
-  "keywords": ["array","extension","functional","prototype","typescript"],
+  "keywords": [
+    "array",
+    "extension",
+    "functional",
+    "prototype",
+    "typescript"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "test": "jest"
   },
   "author": "LoveKicher",
   "license": "MIT",
@@ -15,6 +22,14 @@
     "lodash": "^4.17.11"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.134"
+    "@types/jest": "^24.0.15",
+    "@types/lodash": "^4.14.134",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "tslib": "^1.10.0",
+    "typescript": "^3.5.2"
+  },
+  "jest": {
+    "preset": "ts-jest"
   }
 }

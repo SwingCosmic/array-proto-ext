@@ -34,7 +34,7 @@ declare global {
         max<U extends Comparable>(this: U[]): number | undefined;
         min<U extends Comparable>(this: U[]): number | undefined;
 
-        count(callbackfn: Predicate<T>): number;
+        count(filter: Predicate<T>): number;
         sum(callbackfn: NumberMapper<T>): number;
         max<U extends Comparable>(callbackfn: Mapper<T, U>): T | undefined;
         min<U extends Comparable>(callbackfn: Mapper<T, U>): T | undefined;
@@ -48,6 +48,7 @@ declare global {
         first(): T | undefined;
         last(): T | undefined;
 
+        distinct<U extends Comparable>(this: U[]): T[];
         distinct<K>(keySelector: Mapper<T, K>): T[];
 
         groupBy<K>(keySelector: Mapper<T, K>): Dictionary<T[]>;
@@ -151,9 +152,16 @@ declare global {
     }
     for (let i = 1; i < this.length; i++) {
         const element = this[i];
-        if (result.filter(x => fn(x) === fn(element)).length === 0) {
-            result.push(element);
+        if (typeof(fn) === "function") {
+            if (result.filter(x => fn(x) === fn(element)).length === 0) {
+                result.push(element);
+            }
+        } else {
+            if (!result.includes(element)) {
+                result.push(element);
+            }
         }
+        
     }
     return (result);
 };
