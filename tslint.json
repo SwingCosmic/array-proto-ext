@@ -23,6 +23,7 @@
     "arrow-parens": false,
     "no-trailing-whitespace": false,
     "only-arrow-functions": false,
-    "eofline": false
+    "eofline": false,
+    "no-console": false,
   }
 }

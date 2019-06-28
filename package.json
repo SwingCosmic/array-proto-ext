@@ -1,6 +1,6 @@
 {
   "name": "array-proto-ext",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A functional extension directly adds to Array.prototype",
   "keywords": [
     "array",
@@ -10,9 +10,11 @@
     "typescript"
   ],
   "main": "dist/index.js",
+  "module": "module/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "del /s/q dist > NUL && tsc",
+    "build:es6": "del /s/q module > NUL && tsc -p tsconfig-es6.json",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "jest"
   },
