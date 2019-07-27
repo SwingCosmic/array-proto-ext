@@ -1,6 +1,8 @@
 # array-proto-ext
 A functional extension directly adds to Array.prototype
 
+ * WARNING: Importing this module would modify some properties of `Array.prototype` . Ensure that you know all side effects before import. 
+
 ----
 ## features
 
@@ -12,7 +14,7 @@ A functional extension directly adds to Array.prototype
   You can use it in any Webpack project like Vue CLI.
 * High performance
 
-  * Use `Lodash` to improve the performance.
+  * Some functions use the the implementations of `Lodash` .
   * Use ES2015 generator function and `for ... of ...` expression(target to ES6) to decrease the useless `for` loop.
 * Import just **ONCE** in the entry point
   

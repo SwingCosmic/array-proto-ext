@@ -24,6 +24,6 @@
     "no-trailing-whitespace": false,
     "only-arrow-functions": false,
     "eofline": false,
-    "no-console": false,
+    "no-console": false
   }
 }

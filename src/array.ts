@@ -1,5 +1,5 @@
 import _, { ValueKeyIteratee } from "lodash";
-import { Comparable, Dictionary, Mapper, NumberMapper, Predicate, Equatable, OrderString } from "./types";
+import { Comparable, Dictionary, Mapper, NumberMapper, Predicate, Equatable, OrderString, Constructor } from "./types";
 
 declare global {
 
@@ -79,6 +79,8 @@ declare global {
             prop: K,
             order: OrderString
         }[]): T[];
+
+        ofType<U extends T>(constructor: Constructor<U>): U[];
         //#endregion
 
     }
@@ -228,7 +230,26 @@ declare global {
     if (this.includes(item)) {
         this.splice(this.indexOf(item), 1);
     }
-}
+};
+
+(Array.prototype as any).ofType = function <T, U extends T>(this: T[], constructor: Constructor<U>): U[] {
+    return this.filter(e => {
+        if (constructor as Constructor<string> == String && 
+            Object.prototype.toString.call(e) === "[object String]") {
+            return true; 
+        } else if (constructor as Constructor<number> == Number && 
+            Object.prototype.toString.call(e) === "[object Number]") {
+            return true; 
+        } else if (constructor as Constructor<boolean> == Boolean && 
+            Object.prototype.toString.call(e) === "[object Boolean]") {
+            return true; 
+        } else if (constructor as Constructor<object> == Object && 
+            (typeof(e) === "object" || typeof(e) === "string")) {
+            return true; // Object.create(null), string literal
+        }
+        return e instanceof constructor;
+    }) as U[];
+};
 
 
 // =====================================================================

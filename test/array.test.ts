@@ -96,3 +96,28 @@ test("remove", () => {
     arr.remove(obj);
     expect(arr).toEqual([{ v: 1 }, /* obj */ { v: 4 }, { v: 2 }, { v: 3 },/* obj */]);
 });
+
+test("ofType", () => {
+    class Test {
+        value: string;
+        constructor(v: string){
+            this.value = v;
+        }
+    }
+    const test = new Test("a");
+    const date = new Date();
+    const noPrototype = Object.create(null);
+    const arr = [
+        -1, true, NaN, 
+        "x", new String("233"), date,
+        { a: 9 }, noPrototype, test
+    ];
+    expect(arr.ofType(Number)).toEqual([-1, NaN]);
+
+    expect(arr.ofType(String)).toEqual(["x", "233"]);
+
+    expect(arr.ofType(Test)).toEqual([test]);
+
+    expect(arr.ofType(Object)).toEqual(["x", "233", date, { a: 9 }, noPrototype, test]);
+
+});
