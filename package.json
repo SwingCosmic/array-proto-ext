@@ -1,6 +1,6 @@
 {
   "name": "array-proto-ext",
-  "version": "1.2.1",
+  "version": "1.2.4",
   "description": "A functional extension directly adds to Array.prototype",
   "keywords": [
     "array",
