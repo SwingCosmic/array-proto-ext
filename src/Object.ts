@@ -19,22 +19,27 @@ declare global {
     }
 }
 
-(Object.prototype as any).itemIterator = function*<T extends Dictionary<any>, K extends keyof T>(this: T) {
-    for (const k of Object.keys(this)) {
-        yield [k, this[k]] as [K, T[K]];
-    }
-};
-(Object.prototype as any).items = function<T extends object, K extends keyof T>(this: T) {
-    return Array.from(this.itemIterator());
-};
-
-(Object.prototype as any).map = function <T extends Dictionary<T[K]>, K extends keyof T, U>
-    (this: T, fn: (value: T[K], key: K, obj: T) => U): U[] {
-    const r: U[] = [];
-    for (const k of Object.keys(this)) {
-        r.push(fn(this[k], k as K, this));
-    }
-    return r;
-};
+Object.defineProperty(Object.prototype, "itemIterator", {
+    *value<T extends Dictionary<any>, K extends keyof T>(this: T) {
+        for (const k of Object.keys(this)) {
+            yield [k, this[k]] as [K, T[K]];
+        }
+    },
+});
+Object.defineProperty(Object.prototype, "items", {
+    value<T extends Dictionary<any>>(this: T) {
+        return Array.from(this.itemIterator());
+    },
+});
+Object.defineProperty(Object.prototype, "map", {
+    value<T extends Dictionary<T[K]>, K extends keyof T, U>(
+        this: T, fn: (value: T[K], key: K, obj: T) => U): U[] {
+        const r: U[] = [];
+        for (const k of Object.keys(this)) {
+            r.push(fn(this[k], k as K, this));
+        }
+        return r;
+    },
+});
 
 
