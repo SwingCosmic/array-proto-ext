@@ -1,5 +1,6 @@
 import _, { ValueKeyIteratee } from "lodash";
 import { Comparable, Dictionary, Mapper, NumberMapper, Predicate, Equatable, OrderString, Constructor } from "./types";
+import { isType } from './util';
 
 declare global {
 
@@ -85,23 +86,15 @@ declare global {
 
     }
 
-    // interface Object {
-    //     /**
-    //      * 将字典中的每一个键值对映射为指定的类型，类似{@link Array.prototype.map}
-    //      * @param this 字典，本质上是一个具有固定类型value的Object
-    //      * @param callbackfn 映射函数
-    //      */
-    //     //map<V, T extends Dictionary<V>, U>(this: T, callbackfn: (value: V, key: string, obj: T) => U): U[];
-    // }
 }
 
 
-(Array.prototype as any).rangeIterator = function* (start: number, end: number, step: number = 1) {
+(Array.prototype as any).rangeIterator = function*(start: number, end: number, step: number = 1) {
     for (let i = start; i <= end; i += step) {
         yield i;
     }
 };
-(Array.prototype as any).range = function (start: number, end: number, step: number = 1) {
+(Array.prototype as any).range = function(start: number, end: number, step: number = 1) {
     return Array.from(Array.prototype.rangeIterator(start, end, step));
 };
 (Array.prototype as any).repeatIterator = function*<T>(value: T | (() => T), times: number) {
@@ -220,7 +213,7 @@ declare global {
     if (typeof (fn) === "function") {
         return _.uniqBy(this, fn);
     } else {
-        //Set is faster
+        // Set is faster
         return Array.from(new Set(this).values());
     }
 
@@ -233,35 +226,10 @@ declare global {
 };
 
 (Array.prototype as any).ofType = function <T, U extends T>(this: T[], constructor: Constructor<U>): U[] {
-    return this.filter(e => {
-        if (constructor as Constructor<string> == String && 
-            Object.prototype.toString.call(e) === "[object String]") {
-            return true; 
-        } else if (constructor as Constructor<number> == Number && 
-            Object.prototype.toString.call(e) === "[object Number]") {
-            return true; 
-        } else if (constructor as Constructor<boolean> == Boolean && 
-            Object.prototype.toString.call(e) === "[object Boolean]") {
-            return true; 
-        } else if (constructor as Constructor<object> == Object && 
-            (typeof(e) === "object" || typeof(e) === "string")) {
-            return true; // Object.create(null), string literal
-        }
-        return e instanceof constructor;
-    }) as U[];
+    return this.filter(e => isType(e, constructor)) as U[];
 };
 
 
-// =====================================================================
-
-// (Object.prototype as any).map = function <V, T extends Dictionary<V>, U>
-//     (this: T, fn: (value: V, key: string, obj: T) => U): U[] {
-//     let r: U[] = [];
-//     for (const k of Object.keys(this)) {
-//         r.push(fn(this[k], k, this));
-//     }
-//     return r;
-// };
 
 
 

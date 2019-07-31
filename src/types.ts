@@ -2,7 +2,7 @@ export interface Dictionary<T> { [key: string]: T; }
 
 export type PrimitiveType = number | string | boolean;
 export type Comparable = PrimitiveType | Date ;
-export type Equatable = PrimitiveType | symbol
+export type Equatable = PrimitiveType | symbol;
 
 export type MethodName<T> = {
     [P in keyof T]: T[P] extends (...args: any[]) => any ? P : never;
@@ -16,6 +16,6 @@ export interface NumberMapper<T> extends Mapper<T, number> {}
 export interface Predicate<T> extends Mapper<T, boolean> {}
 
 // Copied from Vue's definition
-export type Constructor<T> = { (): T } | { new(...args: any[]): T & object } | { new(...args: string[]): Function }
+export type Constructor<T> = (() => T) | (new(...args: any[]) => T & object) | (new(...args: string[]) => Function)
 
 export type OrderString = "asc" | "desc";
