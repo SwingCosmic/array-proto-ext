@@ -3,10 +3,10 @@ import { Dictionary } from "../src/types";
 
 describe("Object tests", () => {
     test("! Check environment", () => {
-        expect(Object.prototype.items).toBeDefined();
+        expect(Object.prototype.asItems).toBeDefined();
     });
 
-    test("items", () => {
+    test("asItems", () => {
         const obj = {
             a: true,
             b: [2],
@@ -19,7 +19,7 @@ describe("Object tests", () => {
             value: 4,
             enumerable: false
         });
-        expect(obj.items()).toEqual([
+        expect(obj.asItems()).toEqual([
             ["a", true],
             ["b", [2]],
             ["c", "3"],

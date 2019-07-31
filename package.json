@@ -1,6 +1,6 @@
 {
   "name": "array-proto-ext",
-  "version": "1.3.2",
+  "version": "1.3.4",
   "description": "A functional extension directly adds to Array.prototype",
   "keywords": [
     "array",
@@ -31,6 +31,11 @@
     "tslib": "^1.10.0",
     "typescript": "^3.5.2"
   },
+  "files": [
+    "dist",
+    "module",
+    "src"
+  ],
   "jest": {
     "preset": "ts-jest"
   }

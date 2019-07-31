@@ -5,7 +5,7 @@ declare global {
     interface Object {
 
         /** 以元组的形式获取对象中包含的键值对 */
-        items<T, K extends keyof T>(this: T): Array<[K, T[K]]>;
+        asItems<T, K extends keyof T>(this: T): Array<[K, T[K]]>;
         /** 以元组的形式获取对象中包含的键值对，返回`Iterator` */
         itemIterator<T, K extends keyof T>(this: T): IterableIterator<[K, T[K]]>;
 
@@ -26,7 +26,7 @@ Object.defineProperty(Object.prototype, "itemIterator", {
         }
     },
 });
-Object.defineProperty(Object.prototype, "items", {
+Object.defineProperty(Object.prototype, "asItems", {
     value<T extends Dictionary<any>>(this: T) {
         return Array.from(this.itemIterator());
     },
