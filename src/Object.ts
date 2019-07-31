@@ -14,7 +14,7 @@ declare global {
          * @param this 一个符合字典要求的对象
          * @param mapper 映射函数
          */
-        map<T extends Dictionary<T[K]>, K extends keyof T, U>(
+        mapItem<T extends Dictionary<T[K]>, K extends keyof T, U>(
             this: T, mapper: (value: T[K], key: K, obj: T) => U): U[];
     }
 }
@@ -31,7 +31,7 @@ Object.defineProperty(Object.prototype, "items", {
         return Array.from(this.itemIterator());
     },
 });
-Object.defineProperty(Object.prototype, "map", {
+Object.defineProperty(Object.prototype, "mapItem", {
     value<T extends Dictionary<T[K]>, K extends keyof T, U>(
         this: T, fn: (value: T[K], key: K, obj: T) => U): U[] {
         const r: U[] = [];

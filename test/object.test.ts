@@ -26,7 +26,7 @@ describe("Object tests", () => {
         ]);
     });
 
-    test("map", () => {
+    test("mapItem", () => {
         const obj = {
             a: 1,
             b: 2,
@@ -34,7 +34,7 @@ describe("Object tests", () => {
             d: "10"
         }; // obj is Dictionary<string | number>
         
-        expect(obj.map((v, k) => `key:${k},value:${v}`)).toEqual([
+        expect(obj.mapItem((v, k) => `key:${k},value:${v}`)).toEqual([
             "key:a,value:1",
             "key:b,value:2",
             "key:c,value:3",
